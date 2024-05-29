@@ -17,7 +17,6 @@ def clean_yt_title(title:str) -> str:
     
     return clean_title
     
-    
 # Prompt for file input or single URL
 print('----------------------------------------------')
 try: mode:int = int(input('Select mode:\n\t1. File input\n\t2. Single URL\n\nEnter mode (1 | 2): '))
@@ -31,6 +30,12 @@ output_dir:str = input('Specify output directory: ')
 
 while not os.path.exists(output_dir): 
     output_dir = input(f'The directory "{output_dir}" does not exist.\n\nSpecify output directory: ')
+
+# Clean the output dir string to be standard
+if output_dir[len(output_dir) - 1] == "/": output_dir = output_dir[:len(output_dir) - 1]
+
+print(f'NOTICE: Saving to "{output_dir}/".')
+
 
 # Act accordingly to the mode
 if mode == 1: 
@@ -70,7 +75,7 @@ if mode == 1:
             continue    # Skip to next iteration
 
         # INFO prints & increment debug counter
-        print(f'[+] Saved video "{title}" to the directory "{output_dir}".')
+        print(f'[+] Saved video "{output_dir}/{title}.mp4".')
         i+=1
 else: 
     # Single URL mode 
@@ -96,4 +101,7 @@ else:
         print(f'ERROR: There was an error getting the URL "{url}".')
         print(e) 
 
+    # INFO prints & increment debug counter
+    print(f'[+] Saved video "{output_dir}/{title}.mp4".')
+        
 print("\nNOTICE: Done. Check console for errors.")
