@@ -26,25 +26,24 @@ while mode != 1 and mode != 2:
     mode = int(input(f'\nERROR: Invalid mode ({mode}).\n\nSelect mode:\n\t1. File input\n\t2. Single URL\n\nEnter mode (1 | 2): '))
 
 # Prompt user for the output directory 
+print('----------------------------------------------')
 output_dir:str = input('Specify output directory: ')
 
 while not os.path.exists(output_dir): 
     output_dir = input(f'The directory "{output_dir}" does not exist.\n\nSpecify output directory: ')
 
-# Clean the output dir string to be standard
+# Clean the output dir string to be standard (i.e. remove the trailing "/" if applicable)
 if output_dir[len(output_dir) - 1] == "/": output_dir = output_dir[:len(output_dir) - 1]
-
-print(f'NOTICE: Saving to "{output_dir}/".')
-
 
 # Act accordingly to the mode
 if mode == 1: 
     # File input mode
-    filepath:str = input('Enter the path to a TXT file with URLs separated by newlines: ')
+    print('----------------------------------------------')
+    filepath:str = input('\nEnter the path to a TXT file with URLs separated by newlines: ')
     i:int = 1
     
     # INFO print
-    print(f'NOTICE: Scraping URLs from "{filepath}...')
+    print(f'\n[+] Scraping URLs from "{filepath}...')
     
     # Get the URLs from the file
     with open(filepath, 'r') as file: 
@@ -82,7 +81,7 @@ else:
     url:str = input('Enter the URL: ')
     
     # INFO print
-    print(f'\nNOTICE: Scraping video from "{url}" ...')
+    print(f'\n[+] Scraping video from "{url}" ...')
     
     try: 
         # Create YT obj
@@ -97,11 +96,12 @@ else:
         # Download the video 
         stream.download(output_path=f'{output_dir}/', filename=f'{title}.mp4')
         
+        # INFO prints & increment debug counter
+        print(f'[+] Saved video "{output_dir}/{title}.mp4".')
+    
     except Exception as e: 
-        print(f'ERROR: There was an error getting the URL "{url}".')
+        print(f'\nERROR: There was an error getting the URL "{url}".')
         print(e) 
 
-    # INFO prints & increment debug counter
-    print(f'[+] Saved video "{output_dir}/{title}.mp4".')
-        
+# Done
 print("\nNOTICE: Done. Check console for errors.")
