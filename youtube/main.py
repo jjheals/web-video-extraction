@@ -14,6 +14,7 @@ def clean_yt_title(title:str) -> str:
     clean_title = clean_title.replace(':', '-') # Remove colons (invalid char for filename)
     clean_title = clean_title.replace('"', "")  # Remove double quotes
     clean_title = clean_title.replace('|', "")  # Remove | 
+    clean_title = clean_title.replace('/', "-") # Remove /
     
     return clean_title
     
